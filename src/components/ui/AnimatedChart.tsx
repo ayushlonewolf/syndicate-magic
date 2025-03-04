@@ -59,6 +59,14 @@ const AnimatedChart = ({ className, delay = "animate-delay-300" }: AnimatedChart
     return () => clearTimeout(timer);
   }, []);
 
+  // Generate custom colors based on growth
+  const getBarColor = (entry: any, index: number) => {
+    // Create a gradient of greens from lighter to darker based on value
+    const greenBase = "rgba(34, 197, 94, ";
+    const opacity = 0.6 + (entry.leads / 2300) * 0.4; // Scale opacity by value, 0.6-1.0
+    return `${greenBase}${opacity})`;
+  };
+
   return (
     <div className={cn("w-full h-72 animate-fade-in opacity-0", delay, className)}>
       <ResponsiveContainer width="100%" height="100%">
@@ -78,16 +86,28 @@ const AnimatedChart = ({ className, delay = "animate-delay-300" }: AnimatedChart
               borderColor: 'hsl(var(--border))',
               borderRadius: '0.5rem',
               boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
-            }} 
+            }}
+            labelStyle={{ color: 'hsl(var(--foreground))' }}
+            itemStyle={{ color: 'rgb(34, 197, 94)' }}
           />
           <Bar 
             dataKey="leads" 
             name="Leads Generated" 
-            fill="hsl(var(--primary))" 
+            fill="rgb(34, 197, 94)" 
             radius={[4, 4, 0, 0]}
-          />
+            isAnimationActive={true}
+            animationDuration={1000}
+          >
+            {data.map((entry, index) => (
+              <Bar key={`bar-${index}`} fill={getBarColor(entry, index)} />
+            ))}
+          </Bar>
         </BarChart>
       </ResponsiveContainer>
+      <div className="mt-2 text-center">
+        <span className="text-sm font-medium text-green-500">+411%</span> 
+        <span className="text-sm text-muted-foreground ml-1">growth in lead generation</span>
+      </div>
     </div>
   );
 };
