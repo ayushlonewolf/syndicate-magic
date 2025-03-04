@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Rocket, CheckCircle } from "lucide-react";
+import AnimatedChart from "@/components/ui/AnimatedChart";
 
 const Hero = () => {
   return (
@@ -38,27 +39,14 @@ const Hero = () => {
           <div className="lg:w-1/2 animate-fade-in-left opacity-0 animate-delay-200">
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/10 rounded-2xl transform -rotate-2"></div>
-              <div className="glass-card p-8 relative z-10 animate-float">
-                <div className="aspect-video bg-gradient-to-br from-primary/20 to-primary/5 rounded-lg flex items-center justify-center mb-6">
-                  <svg className="w-24 h-24 text-primary/80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 8V16M8 12H16M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </div>
-                <div className="space-y-4">
-                  <div className="h-4 bg-primary/10 rounded-full w-5/6"></div>
-                  <div className="h-4 bg-primary/10 rounded-full w-full"></div>
-                  <div className="h-4 bg-primary/10 rounded-full w-4/6"></div>
-                </div>
-                <div className="mt-8 grid grid-cols-3 gap-3">
-                  <div className="col-span-1 bg-primary/5 h-16 rounded-lg flex items-center justify-center">
-                    <div className="w-8 h-8 bg-primary/20 rounded-full"></div>
-                  </div>
-                  <div className="col-span-1 bg-primary/5 h-16 rounded-lg flex items-center justify-center">
-                    <div className="w-8 h-8 bg-primary/20 rounded-full"></div>
-                  </div>
-                  <div className="col-span-1 bg-primary/5 h-16 rounded-lg flex items-center justify-center">
-                    <div className="w-8 h-8 bg-primary/20 rounded-full"></div>
-                  </div>
+              <div className="glass-card p-6 relative z-10">
+                <h3 className="text-xl font-semibold mb-3 text-center">Lead Generation Growth</h3>
+                <p className="text-sm text-muted-foreground mb-4 text-center">
+                  Our clients experience exponential lead growth with our syndication strategies
+                </p>
+                <AnimatedChart />
+                <div className="mt-4 text-center text-sm text-muted-foreground">
+                  <span className="font-semibold text-primary">+411%</span> average lead growth over 6 months
                 </div>
               </div>
             </div>

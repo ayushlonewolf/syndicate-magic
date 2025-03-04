@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import ResultsChart from "@/components/ui/ResultsChart";
 
 const CaseStudies = () => {
   const caseStudies = [
@@ -15,6 +16,7 @@ const CaseStudies = () => {
       ],
       category: "SaaS",
       delay: "animate-delay-100",
+      growthPercentage: 107,
     },
     {
       title: "Cybersecurity Lead Conversion",
@@ -25,6 +27,7 @@ const CaseStudies = () => {
       ],
       category: "Cybersecurity",
       delay: "animate-delay-200",
+      growthPercentage: 45,
     },
     {
       title: "Martech LinkedIn Syndication",
@@ -35,6 +38,7 @@ const CaseStudies = () => {
       ],
       category: "MarTech",
       delay: "animate-delay-300",
+      growthPercentage: 68,
     },
   ];
 
@@ -59,9 +63,11 @@ const CaseStudies = () => {
               {study.category}
             </div>
             <h3 className="text-xl font-bold mb-3">{study.title}</h3>
-            <p className="text-muted-foreground mb-6">{study.description}</p>
+            <p className="text-muted-foreground mb-4">{study.description}</p>
             
-            <div className="grid grid-cols-2 gap-4 mb-6">
+            <ResultsChart growthPercentage={study.growthPercentage} />
+            
+            <div className="grid grid-cols-2 gap-4 my-4">
               {study.stats.map((stat, i) => (
                 <div key={i} className="bg-secondary/50 p-4 rounded-lg text-center">
                   <div className="text-2xl font-bold text-primary mb-1">{stat.value}</div>
