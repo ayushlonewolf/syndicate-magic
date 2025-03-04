@@ -20,7 +20,7 @@ const AnimatedCard = ({
   return (
     <div
       className={cn(
-        "glass-card p-6 hover:shadow-xl transition-all duration-500 animate-fade-in opacity-0",
+        "glass-card p-6 hover:shadow-xl transition-all duration-500",
         delay,
         className
       )}

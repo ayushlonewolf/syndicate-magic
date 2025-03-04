@@ -13,6 +13,9 @@ import Footer from "@/components/sections/Footer";
 
 const Index = () => {
   useEffect(() => {
+    // Add a class to show the body is loaded
+    document.body.classList.add('page-loaded');
+    
     // Initialize any scripts or observe elements for animations
     const observeElements = () => {
       const observer = new IntersectionObserver(
@@ -20,6 +23,7 @@ const Index = () => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               entry.target.classList.add("animate-in");
+              entry.target.classList.remove("opacity-0");
             }
           });
         },
@@ -36,7 +40,7 @@ const Index = () => {
     };
 
     // Add a small delay to ensure elements are rendered
-    setTimeout(observeElements, 100);
+    setTimeout(observeElements, 300);
 
     // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
@@ -57,13 +61,14 @@ const Index = () => {
 
     return () => {
       // Clean up event listeners if needed
+      document.body.classList.remove('page-loaded');
     };
   }, []);
 
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <main>
+      <main className="flex-grow">
         <Hero />
         <Services />
         <Differentiators />

@@ -9,6 +9,16 @@
     <meta name="author" content="SyndicateMagic" />
     <meta property="og:image" content="/og-image.png" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <style>
+      /* Initial loading styles */
+      body {
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      body.page-loaded {
+        opacity: 1;
+      }
+    </style>
   </head>
 
   <body>
