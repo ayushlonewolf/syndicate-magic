@@ -51,6 +51,11 @@ const ProcessInfographic = ({ type, className, delay = "animate-delay-300" }: Pr
     return () => clearTimeout(timer);
   }, [type]);
 
+  // Custom label rendering function
+  const renderCustomizedLabel = ({ name, percent }: any) => {
+    return `${name} ${(percent * 100).toFixed(0)}%`;
+  };
+
   // Render different infographics based on type
   const renderInfographic = () => {
     switch (type) {
@@ -71,8 +76,7 @@ const ProcessInfographic = ({ type, className, delay = "animate-delay-300" }: Pr
                     dataKey="value"
                     animationDuration={1000}
                     animationBegin={0}
-                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                    labelStyle={{ fill: '#333', fontSize: 12 }}
+                    label={renderCustomizedLabel}
                   >
                     {data.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
