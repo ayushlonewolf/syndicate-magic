@@ -69,13 +69,6 @@ const AnimatedChart = ({ className, delay = "animate-delay-300" }: AnimatedChart
 
   return (
     <div className="relative">
-      <div className="text-center mb-4 animate-fade-in opacity-0 animate-delay-100">
-        <h2 className="text-2xl font-bold">Lead Generation Growth</h2>
-        <p className="text-muted-foreground mt-1">
-          Our clients experience exponential lead growth with our syndication strategies
-        </p>
-      </div>
-      
       <div className={cn("w-full h-80 animate-fade-in opacity-0", delay, className)}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart 

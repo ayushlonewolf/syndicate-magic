@@ -45,9 +45,6 @@ const Hero = () => {
                   Our clients experience exponential lead growth with our syndication strategies
                 </p>
                 <AnimatedChart />
-                <div className="mt-4 text-center text-sm text-muted-foreground">
-                  <span className="font-semibold text-primary">+411%</span> average lead growth over 6 months
-                </div>
               </div>
             </div>
           </div>
