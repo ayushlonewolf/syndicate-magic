@@ -39,11 +39,7 @@ const Hero = () => {
           <div className="lg:w-1/2 animate-fade-in-left opacity-0 animate-delay-200">
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/10 rounded-2xl transform -rotate-2"></div>
-              <div className="glass-card p-6 relative z-10">
-                <h3 className="text-xl font-semibold mb-3 text-center">Lead Generation Growth</h3>
-                <p className="text-sm text-muted-foreground mb-4 text-center">
-                  Our clients experience exponential lead growth with our syndication strategies
-                </p>
+              <div className="glass-card p-1 relative z-10">
                 <AnimatedChart />
               </div>
             </div>

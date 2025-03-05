@@ -83,14 +83,13 @@ const ResultsChart = ({
   const maxIndex = data.findIndex(item => item.after === maxPoint);
 
   return (
-    <div className={cn("w-full h-48 animate-fade-in opacity-0", delay, className)}>
-      <ResponsiveContainer width="100%" height="100%">
+    <div className={cn("w-full animate-fade-in opacity-0 bg-white p-4 rounded-lg shadow-md", delay, className)}>
+      <ResponsiveContainer width="100%" height={180}>
         <AreaChart data={getGrowthData()} margin={{ top: 15, right: 15, bottom: 5, left: 5 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
           <XAxis 
             dataKey="month" 
-            tick={{ fill: 'hsl(var(--muted-foreground))', fontWeight: 500 }}
-            axisLine={{ stroke: 'rgba(200,200,200,0.3)' }}
+            tick={{ fill: '#94a3b8', fontSize: 12 }}
+            axisLine={{ stroke: '#e2e8f0' }}
             tickLine={false}
             label={{ 
               value: 'Month', 
@@ -98,25 +97,25 @@ const ResultsChart = ({
               offset: -5,
               style: { 
                 textAnchor: 'middle', 
-                fill: 'hsl(var(--muted-foreground))',
-                fontWeight: 500
+                fill: '#64748b',
+                fontSize: 12
               } 
             }}
           />
           <YAxis 
-            tick={{ fill: 'hsl(var(--muted-foreground))' }} 
-            axisLine={{ stroke: 'rgba(200,200,200,0.3)' }}
+            tick={{ fill: '#94a3b8', fontSize: 12 }} 
+            axisLine={false}
             tickLine={false}
           />
           <Tooltip 
             contentStyle={{ 
-              backgroundColor: 'hsl(var(--background))', 
-              borderColor: 'hsl(var(--border))',
+              backgroundColor: 'white', 
+              borderColor: '#e2e8f0',
               borderRadius: '0.5rem',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
+              boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
             }} 
-            labelStyle={{ color: 'hsl(var(--foreground))', fontWeight: 'bold' }}
-            itemStyle={{ color: 'hsl(var(--foreground))' }}
+            labelStyle={{ color: '#1e293b', fontWeight: 'bold' }}
+            itemStyle={{ color: '#1e293b' }}
             formatter={(value, name) => {
               if (name === 'growth') {
                 return [`+${value}%`, 'Growth'];
@@ -129,51 +128,37 @@ const ResultsChart = ({
               }
               return [value, name];
             }}
-            cursor={{ fill: 'rgba(34, 197, 94, 0.05)' }}
+            cursor={{ fill: 'rgba(255, 138, 76, 0.05)' }}
           />
           
           {/* Highlight the growth area with gradient */}
           <defs>
             <linearGradient id="colorGrowth" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="rgb(34, 197, 94)" stopOpacity={0.8}/>
-              <stop offset="95%" stopColor="rgb(34, 197, 94)" stopOpacity={0.2}/>
+              <stop offset="5%" stopColor="rgba(255, 138, 76, 0.8)" stopOpacity={0.8}/>
+              <stop offset="95%" stopColor="rgba(255, 138, 76, 0.2)" stopOpacity={0.2}/>
             </linearGradient>
-            
-            {/* Add glow effect for the highlight */}
-            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="3" result="blur" />
-              <feComposite in="SourceGraphic" in2="blur" operator="over" />
-            </filter>
           </defs>
-          
-          {/* Add a reference line for the highest point */}
-          <ReferenceLine 
-            x={maxIndex + 1} 
-            stroke="rgba(34, 197, 94, 0.5)" 
-            strokeDasharray="3 3" 
-            strokeWidth={1} 
-          />
           
           <Area 
             type="monotone" 
             dataKey="before" 
             name="Before" 
-            stroke="hsl(var(--muted-foreground))" 
+            stroke="#94a3b8" 
             strokeWidth={2}
             strokeDasharray="3 3"
-            fill="rgba(100,100,100,0.1)"
+            fill="rgba(148, 163, 184, 0.1)"
             dot={false} 
           />
           <Area 
             type="monotone" 
             dataKey="after" 
             name="After Our Solution" 
-            stroke="rgb(34, 197, 94)" 
+            stroke="#ff8a4c" 
             strokeWidth={3}
             fill="url(#colorGrowth)"
             activeDot={{ 
               r: 8, 
-              fill: "rgb(34, 197, 94)",
+              fill: "#ff8a4c",
               stroke: "white",
               strokeWidth: 2,
               className: "animate-pulse-soft"
@@ -183,10 +168,10 @@ const ResultsChart = ({
       </ResponsiveContainer>
       
       <div className="mt-2 text-center">
-        <span className="text-base font-bold text-green-500 bg-green-50 px-3 py-1 rounded-full inline-block">
+        <span className="text-base font-bold text-[#ff8a4c] bg-orange-50 px-3 py-1 rounded-full inline-block">
           +{growthPercentage}%
         </span> 
-        <span className="text-muted-foreground ml-2 font-medium">improvement with our solution</span>
+        <span className="text-gray-500 ml-2 text-sm">improvement with our solution</span>
       </div>
     </div>
   );

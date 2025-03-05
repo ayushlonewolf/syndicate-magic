@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend, BarChart, Bar, XAxis, YAxis } from "recharts";
 import { MapPin, Users, ChartPie, CheckCheck, Send } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -21,24 +21,29 @@ const ProcessInfographic = ({ type, className, delay = "animate-delay-300" }: Pr
       
       if (type === "create") {
         setData([
-          { name: "Content Plan", value: 35, color: "#22c55e" },
-          { name: "Optimization", value: 30, color: "#16a34a" },
-          { name: "Research", value: 20, color: "#15803d" },
-          { name: "Refinement", value: 15, color: "#166534" }
+          { name: "Content Plan", value: 31, color: "#ff8a4c" },
+          { name: "Research", value: 18, color: "#ff9d6c" },
+          { name: "Optimization", value: 18, color: "#ffb28c" },
+          { name: "Guest Blogging", value: 16, color: "#ffc7ac" },
+          { name: "Paid Distribution", value: 14, color: "#ffdbc9" },
+          { name: "Distribution Platforms", value: 3, color: "#f8f0ed" }
         ]);
       } else if (type === "distribute") {
         setData([
-          { name: "Social Media", value: 30, color: "#22c55e" },
-          { name: "Email", value: 25, color: "#16a34a" },
-          { name: "PR Networks", value: 25, color: "#15803d" },
-          { name: "Forums", value: 20, color: "#166534" }
+          { name: "Jan", opens: 18, clicks: 12 },
+          { name: "Mar", opens: 22, clicks: 15 },
+          { name: "May", opens: 26, clicks: 14 },
+          { name: "Jul", opens: 24, clicks: 18 },
+          { name: "Sep", opens: 32, clicks: 22 },
+          { name: "Nov", opens: 30, clicks: 26 },
+          { name: "Dec", opens: 35, clicks: 24 }
         ]);
       } else if (type === "track") {
         setData([
-          { name: "Conversions", value: 40, color: "#22c55e" },
-          { name: "Engagement", value: 30, color: "#16a34a" },
-          { name: "Analytics", value: 20, color: "#15803d" },
-          { name: "ROI", value: 10, color: "#166534" }
+          { name: "CMO", value: 45, color: "#ff8a4c" },
+          { name: "CEO", value: 25, color: "#ffa97c" },
+          { name: "CFO", value: 15, color: "#ffc8ac" },
+          { name: "Manager", value: 15, color: "#ffe8dc" }
         ]);
       }
     }, 500);
@@ -51,12 +56,9 @@ const ProcessInfographic = ({ type, className, delay = "animate-delay-300" }: Pr
     switch (type) {
       case "create":
         return (
-          <div className="flex flex-col items-center justify-center h-full">
-            <ChartPie className={cn(
-              "w-12 h-12 text-primary mb-4 opacity-0",
-              animate ? "animate-fade-in" : ""
-            )} />
-            <div className="h-48 w-full">
+          <div className="flex flex-col items-center justify-center h-full p-6">
+            <h3 className="text-xl font-bold mb-4 text-gray-800">Mediums</h3>
+            <div className="h-64 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
@@ -64,11 +66,13 @@ const ProcessInfographic = ({ type, className, delay = "animate-delay-300" }: Pr
                     cx="50%"
                     cy="50%"
                     labelLine={false}
-                    outerRadius={animate ? 60 : 0}
+                    outerRadius={animate ? 80 : 0}
                     fill="#8884d8"
                     dataKey="value"
                     animationDuration={1000}
                     animationBegin={0}
+                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                    labelStyle={{ fill: '#333', fontSize: 12 }}
                   >
                     {data.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
@@ -76,138 +80,132 @@ const ProcessInfographic = ({ type, className, delay = "animate-delay-300" }: Pr
                   </Pie>
                   <Tooltip
                     contentStyle={{ 
-                      backgroundColor: 'hsl(var(--background))', 
-                      borderColor: 'hsl(var(--border))',
-                      borderRadius: '0.5rem'
+                      backgroundColor: 'white', 
+                      borderColor: '#e2e8f0',
+                      borderRadius: '0.5rem',
+                      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
                     }}
+                    formatter={(value) => [`${value}%`, '']}
                   />
-                  <Legend verticalAlign="bottom" height={36} />
+                  <Legend 
+                    verticalAlign="bottom"
+                    layout="vertical" 
+                    align="right"
+                    iconType="circle"
+                    iconSize={8}
+                    formatter={(value) => <span style={{ color: '#64748b', fontSize: 12 }}>{value}</span>}
+                  />
                 </PieChart>
               </ResponsiveContainer>
-            </div>
-            <div className={cn(
-              "mt-2 text-center text-sm text-primary font-medium opacity-0",
-              animate ? "animate-fade-in animate-delay-500" : ""
-            )}>
-              Content Strategy Breakdown
             </div>
           </div>
         );
         
       case "distribute":
         return (
-          <div className="relative h-full flex items-center justify-center">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <Send className={cn(
-                "w-12 h-12 text-primary opacity-0 transform translate-y-10",
-                animate ? "animate-fade-in !translate-y-0 transition-all duration-700" : ""
-              )} />
-            </div>
-            
-            <div className="absolute inset-0">
-              {animate && Array.from({ length: 12 }).map((_, i) => (
-                <div 
-                  key={i}
-                  className={cn(
-                    "absolute rounded-full bg-primary/80 w-2 h-2 opacity-0",
-                    animate ? "animate-fade-in animate-pulse-soft" : "",
-                    `animate-delay-${(i % 5) * 100}`
-                  )}
-                  style={{ 
-                    top: `${10 + Math.random() * 80}%`, 
-                    left: `${10 + Math.random() * 80}%`,
-                    animationDelay: `${0.5 + i * 0.2}s`
+          <div className="flex flex-col items-center justify-center h-full p-6">
+            <h3 className="text-xl font-bold mb-4 text-gray-800">Engagement Rate</h3>
+            <div className="h-60 w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={data}
+                  margin={{
+                    top: 20,
+                    right: 30,
+                    left: 0,
+                    bottom: 10,
                   }}
-                />
-              ))}
-            </div>
-            
-            <div className="absolute bottom-0 w-full">
-              <div className="grid grid-cols-4 gap-2 px-4">
-                {data.map((platform, index) => (
-                  <div 
-                    key={index}
-                    className={cn(
-                      "h-0 bg-gradient-to-t from-primary/80 to-primary/40 rounded-t opacity-0",
-                      animate ? "animate-fade-in h-[60px]" : ""
-                    )}
-                    style={{ 
-                      transitionDelay: `${0.3 + index * 0.2}s`,
-                      transitionDuration: "0.8s",
-                      height: animate ? `${platform.value * 2}px` : 0
-                    }}
+                  barGap={0}
+                  barCategoryGap="35%"
+                >
+                  <XAxis 
+                    dataKey="name"
+                    tick={{ fill: '#64748b', fontSize: 12 }}
+                    axisLine={{ stroke: '#e2e8f0' }}
+                    tickLine={false}
                   />
-                ))}
-              </div>
-              <div className="flex justify-between px-4 text-xs text-muted-foreground mt-1">
-                {data.map((platform, index) => (
-                  <span 
-                    key={index}
-                    className={cn(
-                      "opacity-0",
-                      animate ? "animate-fade-in animate-delay-700" : ""
-                    )}
-                  >
-                    {platform.name.split(' ')[0]}
-                  </span>
-                ))}
-              </div>
+                  <YAxis hide />
+                  <Tooltip
+                    contentStyle={{ 
+                      backgroundColor: 'white', 
+                      borderColor: '#e2e8f0',
+                      borderRadius: '0.5rem',
+                      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                    }}
+                    cursor={false}
+                  />
+                  <Legend 
+                    verticalAlign="top"
+                    iconType="circle"
+                    iconSize={8}
+                    formatter={(value) => <span style={{ color: '#64748b', fontSize: 12 }}>{value}</span>}
+                  />
+                  <Bar 
+                    dataKey="opens" 
+                    fill="#ff8a4c" 
+                    name="Opens"
+                    radius={[4, 4, 0, 0]}
+                    animationDuration={1500}
+                    animationBegin={200}
+                    maxBarSize={20}
+                  />
+                  <Bar 
+                    dataKey="clicks" 
+                    fill="#ffb28c" 
+                    name="Clicks"
+                    radius={[4, 4, 0, 0]}
+                    animationDuration={1500}
+                    animationBegin={400}
+                    maxBarSize={20}
+                  />
+                </BarChart>
+              </ResponsiveContainer>
             </div>
           </div>
         );
         
       case "track":
         return (
-          <div className="relative h-full flex flex-col items-center">
-            <CheckCheck className={cn(
-              "w-12 h-12 text-primary mb-4 opacity-0",
-              animate ? "animate-fade-in" : ""
-            )} />
-            
-            <div className="flex justify-center gap-8 mt-4">
-              {data.slice(0, 2).map((metric, index) => (
-                <div 
-                  key={index}
-                  className={cn(
-                    "text-center opacity-0",
-                    animate ? "animate-fade-in" : ""
-                  )}
-                  style={{ animationDelay: `${0.3 + index * 0.2}s` }}
-                >
-                  <div 
-                    className="relative w-20 h-20 rounded-full flex items-center justify-center bg-primary/10"
-                    style={{ 
-                      background: `conic-gradient(${metric.color} ${animate ? metric.value * 3.6 : 0}deg, transparent 0deg)`
-                    }}
+          <div className="flex flex-col items-center justify-center h-full p-6">
+            <h3 className="text-xl font-bold mb-4 text-gray-800">Buyer Preference</h3>
+            <div className="h-64 w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={data}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    outerRadius={animate ? 80 : 0}
+                    fill="#8884d8"
+                    dataKey="value"
+                    animationDuration={1000}
+                    animationBegin={0}
+                    label={false}
                   >
-                    <div className="absolute inset-2 rounded-full bg-background flex items-center justify-center">
-                      <span className="text-lg font-bold text-primary">{animate ? metric.value : 0}%</span>
-                    </div>
-                  </div>
-                  <p className="mt-2 text-sm font-medium">{metric.name}</p>
-                </div>
-              ))}
-            </div>
-            
-            <div className="mt-6 w-full grid grid-cols-2 gap-4">
-              {data.slice(2).map((metric, index) => (
-                <div 
-                  key={index}
-                  className={cn(
-                    "bg-primary/10 rounded p-2 text-center opacity-0",
-                    animate ? "animate-fade-in" : ""
-                  )}
-                  style={{ animationDelay: `${0.7 + index * 0.2}s` }}
-                >
-                  <span className="text-sm font-medium">{metric.name}</span>
-                  <div className="mt-1 h-2 bg-gray-200 rounded-full overflow-hidden">
-                    <div 
-                      className="h-full bg-primary rounded-full"
-                      style={{ width: animate ? `${metric.value * 2}%` : '0%', transition: 'width 1s ease-out' }}
-                    />
-                  </div>
-                </div>
-              ))}
+                    {data.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <Tooltip
+                    contentStyle={{ 
+                      backgroundColor: 'white', 
+                      borderColor: '#e2e8f0',
+                      borderRadius: '0.5rem',
+                      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                    }}
+                    formatter={(value) => [`${value}%`, '']}
+                  />
+                  <Legend 
+                    verticalAlign="middle"
+                    layout="vertical" 
+                    align="right"
+                    iconType="circle"
+                    iconSize={8}
+                    formatter={(value) => <span style={{ color: '#64748b', fontSize: 12 }}>{value}</span>}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
             </div>
           </div>
         );
@@ -218,7 +216,7 @@ const ProcessInfographic = ({ type, className, delay = "animate-delay-300" }: Pr
   };
 
   return (
-    <div className={cn("aspect-video bg-background rounded-lg h-full w-full", className)}>
+    <div className={cn("aspect-video bg-white rounded-lg shadow-md", className)}>
       {renderInfographic()}
     </div>
   );

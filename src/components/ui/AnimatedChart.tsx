@@ -10,21 +10,29 @@ interface AnimatedChartProps {
 
 const AnimatedChart = ({ className, delay = "animate-delay-300" }: AnimatedChartProps) => {
   const [data, setData] = useState([
-    { name: "Jan", leads: 0 },
-    { name: "Feb", leads: 0 },
-    { name: "Mar", leads: 0 },
-    { name: "Apr", leads: 0 },
-    { name: "May", leads: 0 },
-    { name: "Jun", leads: 0 },
+    { name: "Jan", views: 0, conversions: 0 },
+    { name: "Feb", views: 0, conversions: 0 },
+    { name: "Mar", views: 0, conversions: 0 },
+    { name: "Apr", views: 0, conversions: 0 },
+    { name: "May", views: 0, conversions: 0 },
+    { name: "Jun", views: 0, conversions: 0 },
+    { name: "Jul", views: 0, conversions: 0 },
+    { name: "Aug", views: 0, conversions: 0 },
+    { name: "Sep", views: 0, conversions: 0 },
+    { name: "Oct", views: 0, conversions: 0 },
   ]);
 
   const finalData = [
-    { name: "Jan", leads: 450 },
-    { name: "Feb", leads: 650 },
-    { name: "Mar", leads: 850 },
-    { name: "Apr", leads: 1200 },
-    { name: "May", leads: 1700 },
-    { name: "Jun", leads: 2300 },
+    { name: "Jan", views: 450, conversions: 220 },
+    { name: "Feb", views: 380, conversions: 180 },
+    { name: "Mar", views: 520, conversions: 280 },
+    { name: "Apr", views: 400, conversions: 200 },
+    { name: "May", views: 350, conversions: 160 },
+    { name: "Jun", views: 450, conversions: 230 },
+    { name: "Jul", views: 480, conversions: 250 },
+    { name: "Aug", views: 420, conversions: 210 },
+    { name: "Sep", views: 500, conversions: 270 },
+    { name: "Oct", views: 550, conversions: 300 },
   ];
 
   useEffect(() => {
@@ -41,7 +49,8 @@ const AnimatedChart = ({ className, delay = "animate-delay-300" }: AnimatedChart
 
         const newData = data.map((item, index) => ({
           ...item,
-          leads: Math.round((finalData[index].leads / steps) * currentStep),
+          views: Math.round((finalData[index].views / steps) * currentStep),
+          conversions: Math.round((finalData[index].conversions / steps) * currentStep),
         }));
 
         setData(newData);
@@ -59,91 +68,91 @@ const AnimatedChart = ({ className, delay = "animate-delay-300" }: AnimatedChart
     return () => clearTimeout(timer);
   }, []);
 
-  // Generate custom colors based on growth
-  const getBarColor = (value: number) => {
-    // Create a gradient of greens from lighter to darker based on value
-    const greenBase = "rgba(34, 197, 94, ";
-    const opacity = 0.6 + (value / 2300) * 0.4; // Scale opacity by value, 0.6-1.0
-    return `${greenBase}${opacity})`;
+  const getBarColor = (type: string) => {
+    return type === "views" ? "rgba(255, 229, 210, 0.9)" : "rgba(255, 138, 76, 1)";
   };
 
+  // Calculate total and growth percentages
+  const totalViews = data.reduce((sum, item) => sum + item.views, 0);
+  const totalConversions = data.reduce((sum, item) => sum + item.conversions, 0);
+  const viewsGrowth = 9.2;
+  const conversionsGrowth = 6.6;
+
   return (
-    <div className="relative">
-      <div className={cn("w-full h-80 animate-fade-in opacity-0", delay, className)}>
+    <div className="relative bg-white p-6 rounded-xl shadow-md">
+      <h3 className="text-xl font-bold mb-3 text-gray-800">Your Campaign Performance</h3>
+      
+      <div className="grid grid-cols-2 gap-8 mb-6">
+        <div>
+          <div className="text-gray-500 text-sm mb-1">Views</div>
+          <div className="flex items-center">
+            <span className="text-2xl font-bold mr-2">{totalViews.toLocaleString()}</span>
+            <span className="text-green-500 text-sm flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M12 7a1 1 0 01-1 1H9a1 1 0 01-1-1V6a1 1 0 011-1h2a1 1 0 011 1v1zm-3 5a1 1 0 011-1h2a1 1 0 011 1v1a1 1 0 01-1 1H9a1 1 0 01-1-1v-1z" clipRule="evenodd" />
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12z" clipRule="evenodd" />
+              </svg>
+              {viewsGrowth}%
+            </span>
+          </div>
+        </div>
+        <div>
+          <div className="text-gray-500 text-sm mb-1">Conversions</div>
+          <div className="flex items-center">
+            <span className="text-2xl font-bold mr-2">{totalConversions.toLocaleString()}</span>
+            <span className="text-green-500 text-sm flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M12 7a1 1 0 01-1 1H9a1 1 0 01-1-1V6a1 1 0 011-1h2a1 1 0 011 1v1zm-3 5a1 1 0 011-1h2a1 1 0 011 1v1a1 1 0 01-1 1H9a1 1 0 01-1-1v-1z" clipRule="evenodd" />
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12z" clipRule="evenodd" />
+              </svg>
+              {conversionsGrowth}%
+            </span>
+          </div>
+        </div>
+      </div>
+      
+      <div className={cn("w-full h-48 animate-fade-in opacity-0", delay, className)}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart 
             data={data} 
-            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-            barGap={8}
+            margin={{ top: 0, right: 0, left: 0, bottom: 5 }}
+            barGap={0}
+            barCategoryGap="35%"
           >
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
             <XAxis 
               dataKey="name" 
-              tick={{ fill: 'hsl(var(--muted-foreground))', fontWeight: 500 }}
-              axisLine={{ stroke: 'rgba(200,200,200,0.3)' }}
+              tick={{ fill: '#94a3b8', fontSize: 12 }}
+              axisLine={false}
               tickLine={false}
             />
             <YAxis 
-              tick={{ fill: 'hsl(var(--muted-foreground))' }} 
-              axisLine={{ stroke: 'rgba(200,200,200,0.3)' }}
-              tickLine={false}
-              domain={[0, 2400]}
-              tickCount={7}
-              label={{ 
-                value: 'Leads Generated', 
-                angle: -90, 
-                position: 'insideLeft', 
-                style: { 
-                  textAnchor: 'middle', 
-                  fill: 'hsl(var(--muted-foreground))',
-                  fontWeight: 500
-                } 
-              }} 
+              hide={true}
             />
             <Tooltip 
               contentStyle={{ 
-                backgroundColor: 'hsl(var(--background))', 
-                borderColor: 'hsl(var(--border))',
+                backgroundColor: 'white', 
+                borderColor: '#e2e8f0',
                 borderRadius: '0.5rem',
-                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
+                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
               }}
-              labelStyle={{ color: 'hsl(var(--foreground))', fontWeight: 'bold' }}
-              itemStyle={{ color: 'rgb(34, 197, 94)' }}
-              cursor={{ fill: 'rgba(34, 197, 94, 0.05)' }}
+              cursor={false}
             />
             <Bar 
-              dataKey="leads" 
-              name="Leads Generated" 
+              dataKey="views" 
+              name="Views" 
+              fill={getBarColor("views")}
               radius={[4, 4, 0, 0]}
-              isAnimationActive={true}
-              animationDuration={1000}
-            >
-              {data.map((entry, index) => (
-                <Cell 
-                  key={`cell-${index}`} 
-                  fill={getBarColor(entry.leads)} 
-                  className={index === data.length - 1 ? "animate-float" : ""}
-                />
-              ))}
-              <LabelList 
-                dataKey="leads" 
-                position="top" 
-                style={{ 
-                  fill: 'rgb(34, 197, 94)', 
-                  fontWeight: 'bold',
-                  fontSize: '12px',
-                  opacity: 0.9
-                }}
-                formatter={(value: number) => (value > 0 ? value : '')}
-              />
-            </Bar>
+              maxBarSize={30}
+            />
+            <Bar 
+              dataKey="conversions" 
+              name="Conversions" 
+              fill={getBarColor("conversions")}
+              radius={[4, 4, 0, 0]}
+              maxBarSize={30}
+            />
           </BarChart>
         </ResponsiveContainer>
-      </div>
-      
-      <div className="mt-3 text-center animate-fade-in opacity-0 animate-delay-500">
-        <span className="text-lg font-bold text-green-500 mr-2 inline-block bg-green-50 px-3 py-1 rounded-full">+411%</span> 
-        <span className="text-muted-foreground">average lead growth over 6 months</span>
       </div>
     </div>
   );
