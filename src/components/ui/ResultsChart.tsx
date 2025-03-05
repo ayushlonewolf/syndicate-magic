@@ -86,6 +86,7 @@ const ResultsChart = ({
     <div className={cn("w-full animate-fade-in opacity-0 bg-white p-4 rounded-lg shadow-md", delay, className)}>
       <ResponsiveContainer width="100%" height={180}>
         <AreaChart data={getGrowthData()} margin={{ top: 15, right: 15, bottom: 5, left: 5 }}>
+          <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" vertical={false} />
           <XAxis 
             dataKey="month" 
             tick={{ fill: '#94a3b8', fontSize: 12 }}
@@ -114,8 +115,6 @@ const ResultsChart = ({
               borderRadius: '0.5rem',
               boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
             }} 
-            labelStyle={{ color: '#1e293b', fontWeight: 'bold' }}
-            itemStyle={{ color: '#1e293b' }}
             formatter={(value, name) => {
               if (name === 'growth') {
                 return [`+${value}%`, 'Growth'];
@@ -128,14 +127,14 @@ const ResultsChart = ({
               }
               return [value, name];
             }}
-            cursor={{ fill: 'rgba(255, 138, 76, 0.05)' }}
+            cursor={{ fill: 'rgba(76, 143, 233, 0.05)' }}
           />
           
           {/* Highlight the growth area with gradient */}
           <defs>
             <linearGradient id="colorGrowth" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="rgba(255, 138, 76, 0.8)" stopOpacity={0.8}/>
-              <stop offset="95%" stopColor="rgba(255, 138, 76, 0.2)" stopOpacity={0.2}/>
+              <stop offset="5%" stopColor="rgba(76, 143, 233, 0.8)" stopOpacity={0.8}/>
+              <stop offset="95%" stopColor="rgba(76, 143, 233, 0.2)" stopOpacity={0.2}/>
             </linearGradient>
           </defs>
           
@@ -153,12 +152,12 @@ const ResultsChart = ({
             type="monotone" 
             dataKey="after" 
             name="After Our Solution" 
-            stroke="#ff8a4c" 
+            stroke="#4c8fe9" 
             strokeWidth={3}
             fill="url(#colorGrowth)"
             activeDot={{ 
               r: 8, 
-              fill: "#ff8a4c",
+              fill: "#4c8fe9",
               stroke: "white",
               strokeWidth: 2,
               className: "animate-pulse-soft"
@@ -168,7 +167,7 @@ const ResultsChart = ({
       </ResponsiveContainer>
       
       <div className="mt-2 text-center">
-        <span className="text-base font-bold text-[#ff8a4c] bg-orange-50 px-3 py-1 rounded-full inline-block">
+        <span className="text-base font-bold text-primary bg-primary/10 px-3 py-1 rounded-full inline-block">
           +{growthPercentage}%
         </span> 
         <span className="text-gray-500 ml-2 text-sm">improvement with our solution</span>

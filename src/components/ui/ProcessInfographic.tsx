@@ -1,6 +1,7 @@
+
 import { useState, useEffect } from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend, BarChart, Bar, XAxis, YAxis, CartesianGrid, LabelList } from "recharts";
-import { TrendingUp, Users, ArrowUpRight } from "lucide-react";
+import { TrendingUp, Users, ArrowUpRight, PieChartIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ProcessInfographicProps {
@@ -27,6 +28,23 @@ const calculateColor = (baseColor: string, percent: number) => {
   const targetB = Math.min(255, b + Math.floor((255 - b) * (percent / 100)));
   
   return `#${targetR.toString(16).padStart(2, '0')}${targetG.toString(16).padStart(2, '0')}${targetB.toString(16).padStart(2, '0')}`;
+};
+
+const renderCustomizedLabel = (props: any) => {
+  const { x, y, width, value } = props;
+  return (
+    <text 
+      x={x + width / 2} 
+      y={y - 10} 
+      fill="#22c55e" 
+      textAnchor="middle" 
+      dominantBaseline="middle"
+      fontSize={12}
+      fontWeight="bold"
+    >
+      {value}
+    </text>
+  );
 };
 
 const ProcessInfographic = ({ type, className, delay = "animate-delay-300" }: ProcessInfographicProps) => {
@@ -68,10 +86,6 @@ const ProcessInfographic = ({ type, className, delay = "animate-delay-300" }: Pr
     return () => clearTimeout(timer);
   }, [type]);
 
-  const renderCustomizedLabel = ({ name, percent }: any) => {
-    return `${name} ${(percent * 100).toFixed(0)}%`;
-  };
-
   const calculateGrowthPercentage = () => {
     if (type !== "distribute" || data.length < 2) return 0;
     const firstValue = data[0].leads;
@@ -83,7 +97,7 @@ const ProcessInfographic = ({ type, className, delay = "animate-delay-300" }: Pr
     switch (type) {
       case "create":
         return (
-          <div className="flex flex-col items-center justify-center h-full p-6">
+          <div className="flex flex-col items-center justify-center h-full p-4">
             <h3 className="text-xl font-bold mb-4 text-gray-800 flex items-center">
               Content Mediums
               <TrendingUp className="ml-2 h-5 w-5 text-green-500" />
@@ -101,7 +115,7 @@ const ProcessInfographic = ({ type, className, delay = "animate-delay-300" }: Pr
                     dataKey="value"
                     animationDuration={1000}
                     animationBegin={0}
-                    label={renderCustomizedLabel}
+                    label={({ name, value }) => `${name}: ${value}%`}
                   >
                     {data.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
@@ -132,7 +146,7 @@ const ProcessInfographic = ({ type, className, delay = "animate-delay-300" }: Pr
         
       case "distribute":
         return (
-          <div className="flex flex-col items-center justify-center h-full p-6">
+          <div className="flex flex-col items-center justify-center h-full p-4">
             <h3 className="text-xl font-bold mb-4 text-gray-800 flex items-center">
               Lead Generation
               <ArrowUpRight className="ml-2 h-5 w-5 text-green-500" />
@@ -180,7 +194,7 @@ const ProcessInfographic = ({ type, className, delay = "animate-delay-300" }: Pr
                     animationBegin={200}
                     maxBarSize={40}
                   >
-                    <LabelList dataKey="leads" position="top" fill="#22c55e" fontSize={12} fontWeight="bold" />
+                    <LabelList dataKey="leads" position="top" content={renderCustomizedLabel} />
                   </Bar>
                 </BarChart>
               </ResponsiveContainer>
@@ -193,7 +207,7 @@ const ProcessInfographic = ({ type, className, delay = "animate-delay-300" }: Pr
         
       case "track":
         return (
-          <div className="flex flex-col items-center justify-center h-full p-6">
+          <div className="flex flex-col items-center justify-center h-full p-4">
             <h3 className="text-xl font-bold mb-4 text-gray-800 flex items-center">
               Buyer Preference
               <Users className="ml-2 h-5 w-5 text-green-500" />
@@ -215,7 +229,11 @@ const ProcessInfographic = ({ type, className, delay = "animate-delay-300" }: Pr
                     label={({ name, value }) => `${name}: ${value}%`}
                   >
                     {data.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} className="hover:opacity-80 transition-opacity" />
+                      <Cell 
+                        key={`cell-${index}`} 
+                        fill={entry.color} 
+                        className="hover:opacity-80 transition-opacity" 
+                      />
                     ))}
                   </Pie>
                   <Tooltip
