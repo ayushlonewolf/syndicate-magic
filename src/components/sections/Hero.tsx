@@ -2,8 +2,25 @@
 import { Button } from "@/components/ui/button";
 import { Rocket, CheckCircle, BarChart2 } from "lucide-react";
 import BannerAreaChart from "@/components/ui/charts/BannerAreaChart";
+import ContentMediumsPieChart from "@/components/ui/charts/ContentMediumsPieChart";
+import BuyerPreferenceDonutChart from "@/components/ui/charts/BuyerPreferenceDonutChart";
+import { useState, useEffect } from "react";
+import { getContentMediumsData, getBuyerPreferenceData } from "@/components/ui/charts/chartDataProvider";
 
 const Hero = () => {
+  const [contentMediumsData, setContentMediumsData] = useState(getContentMediumsData());
+  const [buyerPreferenceData, setBuyerPreferenceData] = useState(getBuyerPreferenceData());
+  const [animate, setAnimate] = useState(false);
+
+  useEffect(() => {
+    // Add a slight delay before showing charts to enable animations
+    const timer = setTimeout(() => {
+      setAnimate(true);
+    }, 500);
+    
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <section className="pt-32 pb-20 px-4 sm:px-6 md:px-8 lg:px-12 hero-pattern overflow-hidden">
       <div className="max-w-7xl mx-auto">
@@ -45,10 +62,22 @@ const Hero = () => {
           </div>
 
           <div className="lg:w-1/2 animate-fade-in-left opacity-0 animate-delay-200">
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/10 rounded-2xl transform -rotate-2"></div>
-              <div className="glass-card p-6 relative z-10">
-                <BannerAreaChart />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="col-span-1 md:col-span-2">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/10 rounded-2xl transform -rotate-2"></div>
+                  <div className="glass-card p-4 relative z-10">
+                    <BannerAreaChart />
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-sm p-2">
+                <ContentMediumsPieChart data={contentMediumsData} animate={animate} />
+              </div>
+              
+              <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-sm p-2">
+                <BuyerPreferenceDonutChart data={buyerPreferenceData} animate={animate} />
               </div>
             </div>
           </div>
