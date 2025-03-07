@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Rocket, CheckCircle } from "lucide-react";
 import AnimatedChart from "@/components/ui/AnimatedChart";
+import BannerAreaChart from "@/components/ui/charts/BannerAreaChart";
 
 const Hero = () => {
   return (
@@ -40,7 +41,10 @@ const Hero = () => {
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/10 rounded-2xl transform -rotate-2"></div>
               <div className="glass-card p-1 relative z-10">
-                <AnimatedChart />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <AnimatedChart />
+                  <BannerAreaChart />
+                </div>
               </div>
             </div>
           </div>
