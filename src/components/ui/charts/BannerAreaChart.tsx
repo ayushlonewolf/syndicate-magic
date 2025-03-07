@@ -1,8 +1,9 @@
 
 import { useState, useEffect } from "react";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-import { ArrowUpRight, TrendingUp } from "lucide-react";
+import { ArrowUpRight, TrendingUp, Download, RefreshCw, Maximize2, Filter } from "lucide-react";
 import { getAreaChartColors } from "./colorUtils";
+import { Button } from "@/components/ui/button";
 
 interface DataPoint {
   name: string;
@@ -12,6 +13,7 @@ interface DataPoint {
 const BannerAreaChart = () => {
   const [data, setData] = useState<DataPoint[]>([]);
   const [animate, setAnimate] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   
   useEffect(() => {
     const mockData: DataPoint[] = [
@@ -42,9 +44,35 @@ const BannerAreaChart = () => {
     return Math.round(((lastValue - firstValue) / firstValue) * 100);
   };
 
+  const handleRefreshData = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      const refreshedData = data.map(item => ({
+        ...item,
+        value: Math.floor(item.value * (0.9 + Math.random() * 0.2))
+      }));
+      setData(refreshedData);
+      setIsLoading(false);
+    }, 800);
+  };
+
+  const handleDownloadData = () => {
+    const csvContent = "data:text/csv;charset=utf-8," + 
+      "Month,Value\n" + 
+      data.map(item => `${item.name},${item.value}`).join("\n");
+    
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "content_performance_data.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="h-full w-full bg-white/80 backdrop-blur-sm rounded-xl shadow-sm">
-      <div className="flex justify-between items-center mb-4 px-4 pt-4">
+      <div className="flex justify-between items-center mb-2 px-4 pt-4">
         <h3 className="text-lg font-bold text-gray-800 flex items-center">
           Content Performance
           <TrendingUp className="ml-2 h-4 w-4 text-green-500" />
@@ -54,7 +82,37 @@ const BannerAreaChart = () => {
         </div>
       </div>
       
-      <div className="h-[calc(100%-60px)] px-2">
+      <div className="flex gap-2 px-4 mb-3">
+        <Button 
+          variant="outline" 
+          size="sm" 
+          className="h-8 text-xs"
+          onClick={handleRefreshData}
+          disabled={isLoading}
+        >
+          <RefreshCw className={`h-3.5 w-3.5 mr-1 ${isLoading ? 'animate-spin' : ''}`} />
+          Refresh
+        </Button>
+        <Button 
+          variant="outline" 
+          size="sm" 
+          className="h-8 text-xs"
+          onClick={handleDownloadData}
+        >
+          <Download className="h-3.5 w-3.5 mr-1" />
+          Export
+        </Button>
+        <Button variant="outline" size="sm" className="h-8 text-xs">
+          <Filter className="h-3.5 w-3.5 mr-1" />
+          Filter
+        </Button>
+        <Button variant="outline" size="sm" className="h-8 text-xs ml-auto">
+          <Maximize2 className="h-3.5 w-3.5 mr-1" />
+          Expand
+        </Button>
+      </div>
+      
+      <div className="h-[calc(100%-100px)] px-2">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={data}

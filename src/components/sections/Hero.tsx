@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { Rocket, CheckCircle } from "lucide-react";
+import { Rocket, CheckCircle, BarChart2 } from "lucide-react";
 import BannerAreaChart from "@/components/ui/charts/BannerAreaChart";
 
 const Hero = () => {
@@ -32,6 +32,14 @@ const Hero = () => {
               <div className="flex items-center">
                 <CheckCircle className="h-5 w-5 text-primary mr-2" />
                 <span className="text-sm">100+ Successful Campaigns</span>
+              </div>
+              <div className="flex items-center">
+                <BarChart2 className="h-5 w-5 text-primary mr-2" />
+                <span className="text-sm">Real-time Analytics Tools</span>
+              </div>
+              <div className="flex items-center">
+                <CheckCircle className="h-5 w-5 text-primary mr-2" />
+                <span className="text-sm">Advanced Reporting Features</span>
               </div>
             </div>
           </div>
