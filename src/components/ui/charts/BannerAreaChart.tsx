@@ -43,8 +43,8 @@ const BannerAreaChart = () => {
   };
 
   return (
-    <div className="h-full w-full bg-white/80 backdrop-blur-sm rounded-xl p-4 shadow-sm">
-      <div className="flex justify-between items-center mb-2">
+    <div className="h-full w-full bg-white/80 backdrop-blur-sm rounded-xl shadow-sm">
+      <div className="flex justify-between items-center mb-4 px-4 pt-4">
         <h3 className="text-lg font-bold text-gray-800 flex items-center">
           Content Performance
           <TrendingUp className="ml-2 h-4 w-4 text-green-500" />
@@ -54,11 +54,11 @@ const BannerAreaChart = () => {
         </div>
       </div>
       
-      <div className="h-[calc(100%-40px)]">
+      <div className="h-[calc(100%-60px)] px-2">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={data}
-            margin={{ top: 10, right: 10, left: -25, bottom: 0 }}
+            margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
           >
             <defs>
               <linearGradient id="greenGradient" x1="0" y1="0" x2="0" y2="1">
@@ -87,7 +87,7 @@ const BannerAreaChart = () => {
                 boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
                 fontSize: '12px'
               }}
-              formatter={(value) => [`${value.toLocaleString()}`, 'Views']}
+              formatter={(value: any) => [`${value.toLocaleString()}`, 'Views']}
             />
             <Area 
               type="monotone" 

@@ -1,7 +1,6 @@
 
 import { Button } from "@/components/ui/button";
 import { Rocket, CheckCircle } from "lucide-react";
-import AnimatedChart from "@/components/ui/AnimatedChart";
 import BannerAreaChart from "@/components/ui/charts/BannerAreaChart";
 
 const Hero = () => {
@@ -40,11 +39,8 @@ const Hero = () => {
           <div className="lg:w-1/2 animate-fade-in-left opacity-0 animate-delay-200">
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/10 rounded-2xl transform -rotate-2"></div>
-              <div className="glass-card p-1 relative z-10">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <AnimatedChart />
-                  <BannerAreaChart />
-                </div>
+              <div className="glass-card p-6 relative z-10">
+                <BannerAreaChart />
               </div>
             </div>
           </div>
