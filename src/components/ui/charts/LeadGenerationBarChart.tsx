@@ -1,6 +1,7 @@
 
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LabelList } from "recharts";
 import { ArrowUpRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface LeadGenerationBarChartProps {
   data: Array<{ name: string; leads: number; growth: number }>;
@@ -17,8 +18,8 @@ const renderCustomizedLabel = (props: any) => {
       fill="#22c55e" 
       textAnchor="middle" 
       dominantBaseline="middle"
-      fontSize={12}
-      fontWeight="bold"
+      fontSize={13}
+      fontWeight="600"
     >
       {value}
     </text>
@@ -34,41 +35,43 @@ const LeadGenerationBarChart = ({ data, className, title = "Lead Generation" }: 
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-full p-4">
-      <h3 className="text-xl font-bold mb-4 text-gray-800 flex items-center">
-        {title}
-        <ArrowUpRight className="ml-2 h-5 w-5 text-green-500" />
-      </h3>
-      <div className="h-60 w-full">
+    <div className={cn("flex flex-col p-6 h-full", className)}>
+      <div className="flex items-center justify-between mb-5">
+        <h3 className="text-xl font-bold text-gray-800">
+          {title}
+        </h3>
+        <ArrowUpRight className="h-5 w-5 text-green-500" />
+      </div>
+      
+      <div className="h-[210px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={data}
             margin={{
-              top: 20,
-              right: 30,
+              top: 30,
+              right: 0,
               left: 0,
-              bottom: 10,
+              bottom: 5,
             }}
           >
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
             <XAxis 
               dataKey="name"
-              tick={{ fill: '#64748b', fontSize: 12 }}
-              axisLine={{ stroke: '#e2e8f0' }}
+              tick={{ fill: '#64748b', fontSize: 13, fontWeight: 500 }}
+              axisLine={false}
               tickLine={false}
             />
             <YAxis 
-              tick={{ fill: '#64748b', fontSize: 12 }}
-              axisLine={false}
-              tickLine={false}
-              tickFormatter={(value) => value.toString()}
+              hide={true}
             />
             <Tooltip
               contentStyle={{ 
                 backgroundColor: 'white', 
                 borderColor: '#e2e8f0',
                 borderRadius: '0.5rem',
-                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                padding: '8px 12px',
+                border: 'none'
               }}
               cursor={false}
               formatter={(value) => [`${value}`, 'Leads']}
@@ -80,14 +83,15 @@ const LeadGenerationBarChart = ({ data, className, title = "Lead Generation" }: 
               radius={[4, 4, 0, 0]}
               animationDuration={1500}
               animationBegin={200}
-              maxBarSize={40}
+              maxBarSize={50}
             >
               <LabelList dataKey="leads" position="top" content={renderCustomizedLabel} />
             </Bar>
           </BarChart>
         </ResponsiveContainer>
       </div>
-      <div className="mt-4 bg-green-50 text-green-600 px-4 py-2 rounded-full font-bold text-sm inline-flex items-center">
+      
+      <div className="mt-6 bg-green-50 text-green-600 px-5 py-2 rounded-full font-bold text-sm inline-flex items-center self-center">
         +{calculateGrowthPercentage()}% <span className="ml-1 text-green-700">growth</span>
       </div>
     </div>

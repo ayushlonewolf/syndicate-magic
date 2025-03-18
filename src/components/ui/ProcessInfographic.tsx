@@ -72,7 +72,7 @@ const ProcessInfographic = ({ type, className, delay = "animate-delay-300" }: Pr
   };
 
   return (
-    <div className={cn("aspect-video bg-white/90 rounded-lg shadow-md h-full flex items-center justify-center", className)}>
+    <div className={cn("bg-white rounded-xl shadow-lg h-full", className)}>
       {renderInfographic()}
     </div>
   );
