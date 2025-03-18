@@ -7,12 +7,12 @@ export type ChartType = "create" | "distribute" | "track";
  * Creates initial data for content mediums pie chart
  */
 export const getContentMediumsData = () => [
-  { name: "Content Plan", value: 31, color: "#22c55e" },
-  { name: "Research", value: 18, color: "#4ade80" },
-  { name: "Optimization", value: 18, color: "#86efac" },
-  { name: "Guest Blogging", value: 16, color: "#bbf7d0" },
-  { name: "Paid Distribution", value: 14, color: "#dcfce7" },
-  { name: "Distribution Platforms", value: 3, color: "#f0fdf4" }
+  { name: "Email Distribution", value: 28, color: "#0ea5e9" }, // Added email distribution
+  { name: "Content Plan", value: 22, color: "#22c55e" },
+  { name: "Research", value: 15, color: "#4ade80" },
+  { name: "Optimization", value: 14, color: "#86efac" },
+  { name: "Guest Blogging", value: 12, color: "#bbf7d0" },
+  { name: "Paid Distribution", value: 9, color: "#dcfce7" }
 ];
 
 /**

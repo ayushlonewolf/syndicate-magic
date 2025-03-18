@@ -37,21 +37,34 @@ const ProcessInfographic = ({ type, className, delay = "animate-delay-300" }: Pr
           setData(getBuyerPreferenceData());
           break;
       }
-    }, 500);
+    }, 700);
     
     return () => clearTimeout(timer);
   }, [type]);
 
+  const getChartTitle = () => {
+    switch (type) {
+      case "create":
+        return "Content Distribution Channels";
+      case "distribute":
+        return "Lead Generation Growth";
+      case "track":
+        return "Decision Maker Engagement";
+      default:
+        return "";
+    }
+  };
+
   const renderInfographic = () => {
     switch (type) {
       case "create":
-        return <ContentMediumsPieChart data={data} animate={animate} />;
+        return <ContentMediumsPieChart data={data} animate={animate} title={getChartTitle()} />;
         
       case "distribute":
-        return <LeadGenerationBarChart data={data} />;
+        return <LeadGenerationBarChart data={data} title={getChartTitle()} />;
         
       case "track":
-        return <BuyerPreferenceDonutChart data={data} animate={animate} />;
+        return <BuyerPreferenceDonutChart data={data} animate={animate} title={getChartTitle()} />;
         
       default:
         return null;
@@ -59,7 +72,7 @@ const ProcessInfographic = ({ type, className, delay = "animate-delay-300" }: Pr
   };
 
   return (
-    <div className={cn("aspect-video bg-white rounded-lg shadow-md", className)}>
+    <div className={cn("aspect-video bg-white/90 rounded-lg shadow-md h-full flex items-center justify-center", className)}>
       {renderInfographic()}
     </div>
   );
