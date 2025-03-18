@@ -1,25 +1,13 @@
 
 import { Button } from "@/components/ui/button";
-import { Rocket, CheckCircle, BarChart2 } from "lucide-react";
+import { Rocket, CheckCircle, BarChart2, Calendar, ArrowUpRight, TrendingUp } from "lucide-react";
 import BannerAreaChart from "@/components/ui/charts/BannerAreaChart";
-import ContentMediumsPieChart from "@/components/ui/charts/ContentMediumsPieChart";
-import BuyerPreferenceDonutChart from "@/components/ui/charts/BuyerPreferenceDonutChart";
-import { useState, useEffect } from "react";
-import { getContentMediumsData, getBuyerPreferenceData } from "@/components/ui/charts/chartDataProvider";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useState } from "react";
 
 const Hero = () => {
-  const [contentMediumsData, setContentMediumsData] = useState(getContentMediumsData());
-  const [buyerPreferenceData, setBuyerPreferenceData] = useState(getBuyerPreferenceData());
-  const [animate, setAnimate] = useState(false);
-
-  useEffect(() => {
-    // Add a slight delay before showing charts to enable animations
-    const timer = setTimeout(() => {
-      setAnimate(true);
-    }, 500);
-    
-    return () => clearTimeout(timer);
-  }, []);
+  const [timeRange, setTimeRange] = useState("6m");
+  const [metric, setMetric] = useState("engagement");
 
   return (
     <section className="pt-32 pb-20 px-4 sm:px-6 md:px-8 lg:px-12 hero-pattern overflow-hidden">
@@ -62,22 +50,80 @@ const Hero = () => {
           </div>
 
           <div className="lg:w-1/2 animate-fade-in-left opacity-0 animate-delay-200">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="col-span-1 md:col-span-2">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/10 rounded-2xl transform -rotate-2"></div>
-                  <div className="glass-card p-4 relative z-10">
-                    <BannerAreaChart />
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/10 rounded-2xl transform -rotate-2"></div>
+              <div className="glass-card p-4 relative z-10">
+                <div className="mb-3 flex flex-wrap justify-between items-center">
+                  <div className="flex items-center mb-2 sm:mb-0">
+                    <h3 className="text-lg font-bold text-gray-800 flex items-center mr-3">
+                      Performance Analytics
+                      <TrendingUp className="ml-2 h-4 w-4 text-green-500" />
+                    </h3>
+                    <div className="bg-green-50 text-green-600 px-3 py-1 rounded-full text-xs font-semibold flex items-center">
+                      +212% <ArrowUpRight className="ml-1 h-3 w-3" />
+                    </div>
+                  </div>
+                  
+                  <div className="flex gap-2">
+                    <div className="flex items-center space-x-2">
+                      <Calendar className="h-4 w-4 text-muted-foreground" />
+                      <Select 
+                        defaultValue={timeRange} 
+                        onValueChange={setTimeRange}
+                      >
+                        <SelectTrigger className="h-8 text-xs w-[90px]">
+                          <SelectValue placeholder="Time Range" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="1m">Last Month</SelectItem>
+                          <SelectItem value="3m">Last 3 Months</SelectItem>
+                          <SelectItem value="6m">Last 6 Months</SelectItem>
+                          <SelectItem value="1y">Last Year</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    
+                    <Select 
+                      defaultValue={metric} 
+                      onValueChange={setMetric}
+                    >
+                      <SelectTrigger className="h-8 text-xs w-[130px]">
+                        <SelectValue placeholder="Metric" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="engagement">Engagement</SelectItem>
+                        <SelectItem value="conversion">Conversion Rate</SelectItem>
+                        <SelectItem value="reach">Audience Reach</SelectItem>
+                        <SelectItem value="leads">Qualified Leads</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
-              </div>
-              
-              <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-sm p-2">
-                <ContentMediumsPieChart data={contentMediumsData} animate={animate} />
-              </div>
-              
-              <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-sm p-2">
-                <BuyerPreferenceDonutChart data={buyerPreferenceData} animate={animate} />
+                
+                <BannerAreaChart timeRange={timeRange} metric={metric} />
+                
+                <div className="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  <div className="bg-green-50/50 p-2 rounded-lg">
+                    <p className="text-xs text-gray-500">Avg. Engagement</p>
+                    <p className="text-lg font-bold">8.4k</p>
+                    <p className="text-xs text-green-600">+18% vs last period</p>
+                  </div>
+                  <div className="bg-blue-50/50 p-2 rounded-lg">
+                    <p className="text-xs text-gray-500">Decision Makers</p>
+                    <p className="text-lg font-bold">3.2k</p>
+                    <p className="text-xs text-green-600">+24% vs last period</p>
+                  </div>
+                  <div className="bg-purple-50/50 p-2 rounded-lg">
+                    <p className="text-xs text-gray-500">Content Types</p>
+                    <p className="text-lg font-bold">12</p>
+                    <p className="text-xs text-green-600">+3 new types</p>
+                  </div>
+                  <div className="bg-orange-50/50 p-2 rounded-lg">
+                    <p className="text-xs text-gray-500">Pipeline Value</p>
+                    <p className="text-lg font-bold">$1.8M</p>
+                    <p className="text-xs text-green-600">+32% vs last period</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
