@@ -59,9 +59,13 @@ const Index = () => {
       });
     });
 
+    // Add additional CSS class for the tool container
+    document.documentElement.classList.add('js-enabled');
+
     return () => {
       // Clean up event listeners if needed
       document.body.classList.remove('page-loaded');
+      document.documentElement.classList.remove('js-enabled');
     };
   }, []);
 

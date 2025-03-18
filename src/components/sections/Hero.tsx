@@ -87,7 +87,7 @@ const Hero = () => {
               <Button className="cta-button" onClick={toggleTool}>
                 <Target className="mr-2 h-5 w-5" /> {showTool ? "Hide Tool" : "Analyze Content Reach"}
               </Button>
-              <Button className="secondary-button">Talk to Our Experts</Button>
+              <Button variant="outline" className="secondary-button">Talk to Our Experts</Button>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="flex items-center">
