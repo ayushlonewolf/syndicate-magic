@@ -5,6 +5,7 @@ import { ArrowUpRight } from "lucide-react";
 interface LeadGenerationBarChartProps {
   data: Array<{ name: string; leads: number; growth: number }>;
   className?: string;
+  title?: string;
 }
 
 const renderCustomizedLabel = (props: any) => {
@@ -24,7 +25,7 @@ const renderCustomizedLabel = (props: any) => {
   );
 };
 
-const LeadGenerationBarChart = ({ data, className }: LeadGenerationBarChartProps) => {
+const LeadGenerationBarChart = ({ data, className, title = "Lead Generation" }: LeadGenerationBarChartProps) => {
   const calculateGrowthPercentage = () => {
     if (data.length < 2) return 0;
     const firstValue = data[0].leads;
@@ -35,7 +36,7 @@ const LeadGenerationBarChart = ({ data, className }: LeadGenerationBarChartProps
   return (
     <div className="flex flex-col items-center justify-center h-full p-4">
       <h3 className="text-xl font-bold mb-4 text-gray-800 flex items-center">
-        Lead Generation
+        {title}
         <ArrowUpRight className="ml-2 h-5 w-5 text-green-500" />
       </h3>
       <div className="h-60 w-full">

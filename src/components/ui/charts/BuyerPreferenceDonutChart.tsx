@@ -6,13 +6,14 @@ interface BuyerPreferenceDonutChartProps {
   data: Array<{ name: string; value: number; color: string }>;
   animate: boolean;
   className?: string;
+  title?: string;
 }
 
-const BuyerPreferenceDonutChart = ({ data, animate, className }: BuyerPreferenceDonutChartProps) => {
+const BuyerPreferenceDonutChart = ({ data, animate, className, title = "Buyer Preference" }: BuyerPreferenceDonutChartProps) => {
   return (
     <div className="flex flex-col items-center justify-center h-full p-4">
       <h3 className="text-xl font-bold mb-4 text-gray-800 flex items-center">
-        Buyer Preference
+        {title}
         <Users className="ml-2 h-5 w-5 text-green-500" />
       </h3>
       <div className="h-64 w-full">
