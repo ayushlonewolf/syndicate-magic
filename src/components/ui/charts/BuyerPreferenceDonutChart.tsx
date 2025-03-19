@@ -10,16 +10,9 @@ interface BuyerPreferenceDonutChartProps {
   title?: string;
 }
 
-const BuyerPreferenceDonutChart = ({ data, animate, className, title = "Buyer Preference" }: BuyerPreferenceDonutChartProps) => {
+const BuyerPreferenceDonutChart = ({ data, animate, className }: BuyerPreferenceDonutChartProps) => {
   return (
-    <div className={cn("flex flex-col p-6 h-full", className)}>
-      <div className="flex items-center justify-between mb-5">
-        <h3 className="text-xl font-bold text-gray-800 flex items-center">
-          {title}
-        </h3>
-        <Users className="h-5 w-5 text-green-500" />
-      </div>
-      
+    <div className={cn("flex flex-col h-full", className)}>
       <div className="h-[280px] w-full flex">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
