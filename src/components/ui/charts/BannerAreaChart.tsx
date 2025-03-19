@@ -4,6 +4,7 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { ArrowUpRight, TrendingUp, Download, RefreshCw, Maximize2, Filter } from "lucide-react";
 import { getAreaChartColors } from "./colorUtils";
 import { Button } from "@/components/ui/button";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface DataPoint {
   name: string;
@@ -22,15 +23,21 @@ const BannerAreaChart = ({ timeRange, metric }: BannerAreaChartProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showComparison, setShowComparison] = useState(false);
   const [tooltip, setTooltip] = useState({ show: false, x: 0, y: 0, value: 0 });
+  const isMobile = useIsMobile();
   
   useEffect(() => {
     setIsLoading(true);
     
     // Generate dynamic data based on timeRange and metric
     const generateData = () => {
-      const pointCount = timeRange === '1m' ? 4 : 
+      // For mobile devices, reduce the number of data points to avoid crowding
+      const pointCount = isMobile ? 
+                         (timeRange === '1m' ? 3 : 
+                         timeRange === '3m' ? 4 : 
+                         timeRange === '6m' ? 5 : 6) :
+                         (timeRange === '1m' ? 4 : 
                          timeRange === '3m' ? 7 : 
-                         timeRange === '6m' ? 8 : 12;
+                         timeRange === '6m' ? 8 : 12);
       
       const multiplier = metric === 'engagement' ? 1 : 
                           metric === 'conversion' ? 0.15 : 
@@ -72,7 +79,7 @@ const BannerAreaChart = ({ timeRange, metric }: BannerAreaChartProps) => {
     }, 400);
     
     return () => clearTimeout(timer);
-  }, [timeRange, metric, showComparison]);
+  }, [timeRange, metric, showComparison, isMobile]);
 
   const colors = getAreaChartColors();
   
@@ -129,7 +136,7 @@ const BannerAreaChart = ({ timeRange, metric }: BannerAreaChartProps) => {
       if (timeRange === '1m') {
         // Weekly labels for 1 month
         date.setDate(today.getDate() - (i * 7));
-        labels.push(`W${4-i}`);
+        labels.push(`W${count-i}`);
       } else {
         // Monthly labels
         date.setMonth(today.getMonth() - i);
@@ -159,44 +166,61 @@ const BannerAreaChart = ({ timeRange, metric }: BannerAreaChartProps) => {
     return (value: any) => value;
   };
 
+  // Mobile-specific adjustments
+  const chartHeight = isMobile ? 180 : 240;
+  const buttonSize = isMobile ? "xs" : "sm";
+  const buttonClassName = isMobile ? "h-7 text-[10px] px-2" : "h-8 text-xs";
+  const iconSize = isMobile ? "h-3 w-3 mr-1" : "h-3.5 w-3.5 mr-1";
+  
+  // Enhanced tooltip for better mobile experience
+  const tooltipStyle = {
+    backgroundColor: 'white',
+    borderColor: '#e2e8f0',
+    borderRadius: '0.5rem',
+    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+    fontSize: isMobile ? '10px' : '12px',
+    padding: isMobile ? '4px 6px' : '8px 10px'
+  };
+
   return (
     <div className="h-full w-full bg-white/80 backdrop-blur-sm rounded-xl shadow-sm">
-      <div className="flex justify-end gap-2 mb-3">
+      {/* Mobile-friendly button layout */}
+      <div className={`flex ${isMobile ? 'flex-wrap gap-1 mb-2 px-1 pt-1' : 'justify-end gap-2 mb-3'}`}>
         <Button 
           variant="outline" 
-          size="sm" 
-          className="h-8 text-xs"
+          size={buttonSize}
+          className={buttonClassName}
           onClick={handleRefreshData}
           disabled={isLoading}
         >
-          <RefreshCw className={`h-3.5 w-3.5 mr-1 ${isLoading ? 'animate-spin' : ''}`} />
-          Refresh
+          <RefreshCw className={`${iconSize} ${isLoading ? 'animate-spin' : ''}`} />
+          {!isMobile && "Refresh"}
         </Button>
         <Button 
           variant="outline" 
-          size="sm" 
-          className="h-8 text-xs"
+          size={buttonSize}
+          className={buttonClassName}
           onClick={toggleComparisonData}
         >
-          <Filter className="h-3.5 w-3.5 mr-1" />
-          {showComparison ? "Hide" : "Show"} Comparison
+          <Filter className={iconSize} />
+          {isMobile ? (showComparison ? "Hide" : "Show") : (showComparison ? "Hide" : "Show") + " Comparison"}
         </Button>
         <Button 
           variant="outline" 
-          size="sm" 
-          className="h-8 text-xs"
+          size={buttonSize}
+          className={buttonClassName}
           onClick={handleDownloadData}
         >
-          <Download className="h-3.5 w-3.5 mr-1" />
-          Export
+          <Download className={iconSize} />
+          {!isMobile && "Export"}
         </Button>
       </div>
       
-      <div className="h-[240px]">
+      <div style={{ height: chartHeight }} className={isMobile ? "px-1" : ""}>
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={data}
-            margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+            margin={isMobile ? { top: 5, right: 5, left: 0, bottom: 0 } : { top: 10, right: 10, left: 0, bottom: 0 }}
           >
             <defs>
               <linearGradient id="greenGradient" x1="0" y1="0" x2="0" y2="1">
@@ -213,24 +237,22 @@ const BannerAreaChart = ({ timeRange, metric }: BannerAreaChartProps) => {
             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
             <XAxis 
               dataKey="name" 
-              tick={{ fill: '#64748b', fontSize: 10 }}
+              tick={{ fill: '#64748b', fontSize: isMobile ? 8 : 10 }}
               axisLine={{ stroke: '#e2e8f0' }}
               tickLine={false}
+              padding={isMobile ? { left: 5, right: 5 } : { left: 0, right: 0 }}
+              interval={isMobile ? "preserveStartEnd" : 0}
             />
             <YAxis 
-              tick={{ fill: '#64748b', fontSize: 10 }}
+              tick={{ fill: '#64748b', fontSize: isMobile ? 8 : 10 }}
               axisLine={false}
               tickLine={false}
               tickFormatter={getYAxisTickFormatter()}
+              width={isMobile ? 30 : 40}
+              tickCount={isMobile ? 3 : 5}
             />
             <Tooltip
-              contentStyle={{ 
-                backgroundColor: 'white', 
-                borderColor: '#e2e8f0',
-                borderRadius: '0.5rem',
-                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-                fontSize: '12px'
-              }}
+              contentStyle={tooltipStyle}
               formatter={(value: any, name: string) => {
                 if (name === 'value') return [`${value.toLocaleString()}`, getMetricName()];
                 if (name === 'comparison') return [`${value.toLocaleString()}`, 'Previous Period'];
@@ -258,7 +280,7 @@ const BannerAreaChart = ({ timeRange, metric }: BannerAreaChartProps) => {
                 fillOpacity={0.4}
                 strokeWidth={1.5}
                 dot={{ r: 0 }}
-                activeDot={{ r: 6, stroke: '#3b82f6', strokeWidth: 1, fill: '#ffffff' }}
+                activeDot={{ r: isMobile ? 4 : 6, stroke: '#3b82f6', strokeWidth: 1, fill: '#ffffff' }}
                 animationDuration={1500}
                 animationBegin={200}
               />
@@ -272,13 +294,23 @@ const BannerAreaChart = ({ timeRange, metric }: BannerAreaChartProps) => {
               fillOpacity={colors.fillOpacity}
               strokeWidth={2}
               dot={{ r: 0 }}
-              activeDot={{ r: 6, stroke: colors.stroke, strokeWidth: 1, fill: '#ffffff' }}
+              activeDot={{ r: isMobile ? 4 : 6, stroke: colors.stroke, strokeWidth: 1, fill: '#ffffff' }}
               animationDuration={1500}
               animationBegin={0}
             />
           </AreaChart>
         </ResponsiveContainer>
       </div>
+      
+      {/* Mobile-friendly metrics display */}
+      {isMobile && (
+        <div className="mt-1 px-2 pb-2">
+          <div className="text-xs font-medium text-gray-500">
+            {getMetricName()} Growth: 
+            <span className="ml-1 text-green-600 font-semibold">{calculateGrowthPercentage()}%</span>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
