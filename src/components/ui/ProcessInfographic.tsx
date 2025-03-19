@@ -25,20 +25,21 @@ const ProcessInfographic = ({ type, className, delay = "animate-delay-300" }: Pr
   const [data, setData] = useState<any[]>(getInitialEmptyData(type));
   
   useEffect(() => {
+    // Immediate data loading for the distribute chart to ensure visibility
+    if (type === "distribute") {
+      setData(getLeadGenerationData());
+    }
+    
     const timer = setTimeout(() => {
       setAnimate(true);
       
-      switch (type) {
-        case "create":
-          setData(getContentMediumsData());
-          break;
-        case "distribute":
-          setData(getLeadGenerationData());
-          break;
-        case "track":
-          setData(getBuyerPreferenceData());
-          break;
+      // For create and track, load after delay
+      if (type === "create") {
+        setData(getContentMediumsData());
+      } else if (type === "track") {
+        setData(getBuyerPreferenceData());
       }
+      // distribute data is already loaded
     }, 700);
     
     return () => clearTimeout(timer);
@@ -120,6 +121,7 @@ const ProcessInfographic = ({ type, className, delay = "animate-delay-300" }: Pr
               </CardDescription>
             </CardHeader>
             <CardContent className="pb-2">
+              {/* Removed animate dependency for this chart */}
               <LeadGenerationBarChart data={data} />
             </CardContent>
             <CardFooter className="flex items-center pt-2 text-xs text-slate-500 bg-slate-50 rounded-b-lg p-3 mt-auto">
