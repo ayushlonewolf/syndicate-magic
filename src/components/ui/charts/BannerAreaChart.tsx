@@ -168,7 +168,7 @@ const BannerAreaChart = ({ timeRange, metric }: BannerAreaChartProps) => {
 
   // Mobile-specific adjustments
   const chartHeight = isMobile ? 180 : 240;
-  const buttonSize = isMobile ? "xs" : "sm";
+  const buttonSize = isMobile ? "sm" : "sm"; // Changed from "xs" to "sm"
   const buttonClassName = isMobile ? "h-7 text-[10px] px-2" : "h-8 text-xs";
   const iconSize = isMobile ? "h-3 w-3 mr-1" : "h-3.5 w-3.5 mr-1";
   
@@ -188,7 +188,7 @@ const BannerAreaChart = ({ timeRange, metric }: BannerAreaChartProps) => {
       <div className={`flex ${isMobile ? 'flex-wrap gap-1 mb-2 px-1 pt-1' : 'justify-end gap-2 mb-3'}`}>
         <Button 
           variant="outline" 
-          size={buttonSize}
+          size={buttonSize} // Changed from "xs" to "sm"
           className={buttonClassName}
           onClick={handleRefreshData}
           disabled={isLoading}
@@ -198,7 +198,7 @@ const BannerAreaChart = ({ timeRange, metric }: BannerAreaChartProps) => {
         </Button>
         <Button 
           variant="outline" 
-          size={buttonSize}
+          size={buttonSize} // Changed from "xs" to "sm" 
           className={buttonClassName}
           onClick={toggleComparisonData}
         >
@@ -207,7 +207,7 @@ const BannerAreaChart = ({ timeRange, metric }: BannerAreaChartProps) => {
         </Button>
         <Button 
           variant="outline" 
-          size={buttonSize}
+          size={buttonSize} // Changed from "xs" to "sm"
           className={buttonClassName}
           onClick={handleDownloadData}
         >
